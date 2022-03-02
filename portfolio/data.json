@@ -1,0 +1,60 @@
+{
+  "name": "MyPortfolio",
+  "landing": {
+    "title": "Hey there, I'm Abdelhak",
+    "subtitles": [
+      "Hey there, I'm Abdelhak and I'm a front-end web developper. I create custom websites, apps and more.",
+      "Cross-platform compatibility focused",
+      "Eager to learn and improve in all aspects of life"
+    ],
+    "professionalDetails": [
+      {
+        "alt": "Abdelhak Guettaf",
+        "icon": "linkedin.svg",
+        "link": "https://www.linkedin.com/in/abdelhak-guettaf-57545775/"
+      },
+      {
+        "alt": "Shocky",
+        "icon": "stackoverflow.svg",
+        "link": "https://stackoverflow.com/users/18355496/shocky"
+      },
+      {
+        "alt": "Abdelhak Guettaf",
+        "icon": "github.svg",
+        "link": "https://github.com/AbdelhakGuettaf"
+      },
+      {
+        "alt": "Email",
+        "icon": "gmail.svg",
+        "link": "hakotaf@gmail.com"
+      }
+    ]
+  },
+  "skills": {
+    "front-end": [
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "React",
+      "React Native",
+      "Next.js",
+      "Tailwindcss"
+    ],
+    "cli": ["NPM", "Native CLI", "Expo CLI", "GIT"]
+  },
+  "projects": {},
+  "experience": {
+    "Work Experience": [
+      {
+        "organization": "EURL Coda Systems",
+        "role": "Front-end Developper",
+        "type": "Junior",
+        "startDate": "2017-02-20",
+        "endDate": "2018-01-20",
+        "city": "El-Bayadh",
+        "country": "Algeria",
+        "thumbnail": "/CDFN.jfif"
+      }
+    ]
+  }
+}

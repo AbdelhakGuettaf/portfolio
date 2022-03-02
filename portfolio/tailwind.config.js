@@ -2,6 +2,7 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./public/**/*.{js,ts,jsx,tsx}",
   ],
   presets: [],
   darkMode: "media", // or 'class'
@@ -115,6 +116,7 @@ module.exports = {
       ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
       pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       bounce: "bounce 1s infinite",
+      hang: "hang 3s ",
     },
     aspectRatio: {
       auto: "auto",
@@ -591,6 +593,26 @@ module.exports = {
         "50%": {
           transform: "none",
           animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
+        },
+      },
+      hang: {
+        "0%": {
+          transform: "rotateX(-90deg)",
+        },
+        "20%": {
+          transform: "rotateX(60deg)",
+        },
+        "40%": {
+          transform: "rotateX(-40deg)",
+        },
+        "60%": {
+          transform: "rotateX(20deg)",
+        },
+        "80%": {
+          transform: "rotateX(-10deg)",
+        },
+        "100%": {
+          transform: "rotateX(0deg)",
         },
       },
     },
