@@ -116,7 +116,9 @@ module.exports = {
       ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
       pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       bounce: "bounce 1s infinite",
-      hang: "hang 3s ",
+      hang: "hang 3s",
+      popIn: "pop 600ms ease-in-out ",
+      popInDelay: "popDelay 800ms ease-in-out ",
     },
     aspectRatio: {
       auto: "auto",
@@ -550,6 +552,7 @@ module.exports = {
       "3/6": "50%",
       "4/6": "66.666667%",
       "5/6": "83.333333%",
+      custom: "850px",
       full: "100%",
       "125vh": "125vh",
       screen: "100vh",
@@ -613,6 +616,43 @@ module.exports = {
         },
         "100%": {
           transform: "rotateX(0deg)",
+        },
+      },
+      pop: {
+        "0%": {
+          transform: "scale(0)",
+          opacity: "0",
+        },
+        "75%": {
+          transform: "scale(1.05)",
+          opacity: "0.9",
+        },
+        "90%": {
+          transform: "scale(0.95)",
+          opacity: "1",
+        },
+        "100%": {
+          transform: "scale(1)",
+          opacity: "1",
+        },
+      },
+      popDelay: {
+        "0%": {
+          transform: "scale(0)",
+          opacity: "0",
+        },
+        "50%": {
+          transform: "scale(0)",
+          opacity: "0",
+        },
+
+        "90%": {
+          transform: "scale(1.3)",
+          opacity: "1",
+        },
+        "100%": {
+          transform: "scale(1.25)",
+          opacity: "1",
         },
       },
     },

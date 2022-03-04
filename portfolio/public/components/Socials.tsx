@@ -12,7 +12,7 @@ export const Socials: React.FC<SocialsProps> = ({}) => {
         <div
           style={{ minWidth: 35 }}
           key={key}
-          className="transition m-6 hover:scale-125 hover:drop-shadow-2xl scale-125 xs:scale-75 flex justify-center w-fit rounded-full shadow-xl shadow-black"
+          className="transition m-6 hover:cursor-pointer hover:scale-125 hover:drop-shadow-2xl scale-125 xs:scale-75 flex justify-center w-fit rounded-full shadow-xl shadow-black"
         >
           <Image
             className="rounded-full"
