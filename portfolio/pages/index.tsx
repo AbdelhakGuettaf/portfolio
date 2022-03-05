@@ -25,6 +25,8 @@ const Home: NextPage = () => {
   const skills = useRef<HTMLLIElement>(null);
   const contact = useRef<HTMLLIElement>(null);
   const navSelected = useRef<HTMLLIElement>(null);
+  const logo = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
     toggleNav("home");
     const sizeChanged = () => {
@@ -38,84 +40,81 @@ const Home: NextPage = () => {
     sizeChanged();
     return () => window.removeEventListener("resize", sizeChanged);
   }, []);
+  console.log(windowHeight);
   const toggleNav = (element: string) => {
-    home.current?.classList.remove("text-black");
-    skills.current?.classList.remove("text-black");
-    contact.current?.classList.remove("text-black");
+    home.current?.classList.remove("text-sky-500");
+    skills.current?.classList.remove("text-sky-500");
+    contact.current?.classList.remove("text-sky-500");
+    logo.current?.classList.remove("text-sky-500");
     navSelected.current?.classList.remove("translate-x-0");
     navSelected.current?.classList.remove("translate-x-40");
     navSelected.current?.classList.remove("translate-x-80");
     if (element === "home") {
       navSelected.current?.classList.add("translate-x-0");
-      home.current?.classList.add("text-black");
+      home.current?.classList.add("text-sky-500");
     }
     if (element === "skills") {
+      console.log(element);
       navSelected.current?.classList.add("translate-x-40");
-      skills.current?.classList.add("text-black");
+      skills.current?.classList.add("text-sky-500");
+      logo.current?.classList.add("text-sky-500");
     }
     if (element === "contact") {
       navSelected.current?.classList.add("translate-x-80");
-      contact.current?.classList.add("text-black");
+      contact.current?.classList.add("text-sky-500");
     }
   };
+
   var time: NodeJS.Timeout;
-  const onScroll = (event: UIEvent<HTMLElement>) => {
+  const handleScroll = (e: UIEvent<HTMLElement>, n?: boolean) => {
     clearTimeout(time);
-    if (windowHeight) {
-      const target: number = event.currentTarget.scrollTop;
-      switch (target) {
-        case 0:
-          toggleNav("home");
-          if (visited.includes(1)) break;
-          setScrollToggle(false);
-          time = setTimeout(() => setScrollToggle(true), 1000);
-          break;
-        case window.innerHeight:
-          toggleNav("skills");
-          if (visited.includes(2)) break;
-          setScrollToggle(false);
-          setTimeout(() => setScrollToggle(true), 1000);
-          setVisited([1]);
-          break;
-        case window.innerHeight * 2:
-          toggleNav("contact");
-          if (visited.includes(2)) break;
-          setScrollToggle(false);
-          setTimeout(() => setScrollToggle(true), 1000);
-          setVisited([1, 2]);
-          break;
-        case window.innerHeight * 3:
-          if (visited.includes(4)) break;
-          setScrollToggle(false);
-          setTimeout(() => setScrollToggle(true), 1000);
-          setVisited([1, 2, 3, 4]);
-          break;
-        default:
-          break;
-      }
+    let p = e.currentTarget.scrollTop;
+    time = setTimeout(() => {
+      n ? normalScroll(p) : onScroll(p);
+    }, 100);
+  };
+  const onScroll = (pos: number) => {
+    clearTimeout(pos);
+    switch (pos) {
+      case 0:
+        toggleNav("home");
+        if (visited.includes(1)) break;
+        setScrollToggle(false);
+        time = setTimeout(() => setScrollToggle(true), 1000);
+        break;
+      case window.innerHeight:
+        toggleNav("skills");
+        if (visited.includes(2)) break;
+        setScrollToggle(false);
+        setTimeout(() => setScrollToggle(true), 1000);
+        setVisited([1]);
+        break;
+      case window.innerHeight * 2:
+        toggleNav("contact");
+        if (visited.includes(2)) break;
+        setScrollToggle(false);
+        setTimeout(() => setScrollToggle(true), 1000);
+        setVisited([1, 2]);
+        break;
+      case window.innerHeight * 3:
+        if (visited.includes(3)) break;
+        setScrollToggle(false);
+        setTimeout(() => setScrollToggle(true), 1000);
+        setVisited([1, 2, 3]);
+        break;
+      default:
+        break;
     }
   };
-  const normalScroll = (event: UIEvent<HTMLElement>) => {
+  const normalScroll = (pos: number) => {
     const p = window.innerHeight;
-    const target: number = event.currentTarget.scrollTop;
-    if (target < p) {
+    console.log("here");
+    if (pos < p) {
       toggleNav("home");
-      if (visited.includes(1)) return;
-      setScrollToggle(false);
-      time = setTimeout(() => setScrollToggle(true), 1000);
-      return;
-    } else if (target >= p && target < p * 1.5) {
+    } else if (pos >= p && pos < p * 1.5) {
       toggleNav("skills");
-      if (visited.includes(2)) return;
-      setScrollToggle(false);
-      setTimeout(() => setScrollToggle(true), 1000);
-      setVisited([1]);
-    } else if (target >= p * 1.5 && target < p * 2.5) {
+    } else if (pos >= p * 1.5 && pos < p * 2.5) {
       toggleNav("contact");
-      if (visited.includes(2)) return;
-      setScrollToggle(false);
-      setTimeout(() => setScrollToggle(true), 1000);
-      setVisited([1, 2]);
     } else {
       return;
     }
@@ -132,9 +131,12 @@ const Home: NextPage = () => {
       </Head>
       <div
         id="nav"
-        className="fixed hidden  xl:flex md:justify-between p-4 top-0 w-screen h-14 bg-transparent z-10"
+        className={`fixed hidden  xl:flex md:justify-between p-4 top-0 w-screen h-14 bg-transparent z-10`}
       >
-        <span className="font-sans pt-8 self-center ml-4 text-white text-3xl font-bold ">
+        <span
+          ref={logo}
+          className="transition delay-100 font-sans pt-8 text-white self-center ml-4 text-3xl font-bold "
+        >
           {data.name}
         </span>
         <div className="flex flex-row text-white text-sm font-light h-full px-6 ">
@@ -150,7 +152,7 @@ const Home: NextPage = () => {
                 toggleNav("home");
               }}
               ref={home}
-              className="text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
+              className="transition delay-100 text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
             >
               Home
             </li>
@@ -160,7 +162,7 @@ const Home: NextPage = () => {
                 toggleNav("skills");
               }}
               ref={skills}
-              className="text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
+              className="transition delay-100 text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
             >
               Skills
             </li>
@@ -170,7 +172,7 @@ const Home: NextPage = () => {
                 toggleNav("contact");
               }}
               ref={contact}
-              className="text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
+              className="transition delay-100 text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
             >
               Contact
             </li>
@@ -179,20 +181,20 @@ const Home: NextPage = () => {
       </div>
       <div
         onScroll={(e) => {
-          windowHeight ? onScroll(e) : normalScroll(e);
+          windowHeight ? handleScroll(e) : handleScroll(e, true);
         }}
         className={`${
           scrollToggle ? "overflow-scroll" : "overflow-hidden"
         }  w-full h-screen dark:bg-black snap snap-y snap-mandatory min-w-fit`}
       >
-        <section
+        <section //section 1
           ref={first}
           style={{ backgroundImage: `url(../images/bg-1.svg)` }}
-          className={`flex flex-col justify-center  xl:flex-row h-screen  w-full scroll-smooth ${
-            windowHeight ? "snap-end h-screen " : "h-custom"
+          className={`flex flex-col justify-center  xl:flex-row h-screen  w-screen scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : "h-custom"
           }  overflow-hidden xl:pt-8`}
         >
-          <div className=" h-full w-full xl:flex flex-row">
+          <div className=" h-full w-screen xl:flex flex-row">
             <main className="xl:animate-popIn flex flex-col mt-6 xl:mt-0 md:w-full xl:p-3 md: rounded-xl justify-center  ">
               <div className="flex-row w-full ">
                 <div className="flex justify-center xl:justify-start md:justify-center ">
@@ -242,12 +244,32 @@ const Home: NextPage = () => {
             </div>
           </div>
         </section>
-        <section
+        <section //section 2
           ref={second}
-          className={`flex flex-colrelative z-20 justify-center min-w-fit overflow-hidden h-full w-full bg-gradient-to-b from-main to-sky-600 scroll-smooth ${
-            windowHeight ? "snap-center" : ""
-          } xl:flex-row`}
+          className={`flex flex-col  overflow-hidden h-screen w-screen bg-gradient-to-tl from-main to-sky-500 scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : "h-custom"
+          } `}
         >
+          <div className="hidden xl:flex relative w-full h-0">
+            <div className="absolute -top-32 -left-20 bg-white rounded-full shadow-2xl  shadow-white w-96 aspect-square"></div>
+          </div>
+          <div className="w-full ">
+            <main className="flex justify-center w-full min-w-fit ">
+              <div //cloud wrapper
+                className=" mt-16 grid grid-rows-6 grid-cols-12 h-44 w-96  "
+              >
+                <div className="bg-white z-20 col-start-2 row-start-3 col-end-8  rounded-full  aspect-square w-1/2" />
+                <div className="bg-white z-20 col-start-4 row-start-1 row-end-7 col-end-11 rounded-t-full" />
+                <div className="bg-white z-20 col-start-9 row-start-3 row-end-7 col-end-13 rounded-t-full rounded-br-full" />
+
+                <div className="col-start-1 row-start-4 row-end-7 col-end-13 bg-white rounded-full shadow-2xl shadow-main  h-full w-full"></div>
+                <div className="col-start-1 z-30 text-6xl font-black text-sky-500 col-end-13 row-start-4 text-center">
+                  Skills
+                </div>
+              </div>
+            </main>
+          </div>
+
           {/* <div className="relative w-screen h-screen">
             <span className="absolute  left-2/4 opacity-30 text-18xl font-extrabold text-slate-900">
               WEB DE<span className="opacity-30 text-violet-500">V</span>
@@ -264,13 +286,13 @@ const Home: NextPage = () => {
             </span>
           </div> */}
         </section>
-        <section
+        <section //section 3
           ref={third}
           className={`h-full w-full bg-slate-600  ${
             windowHeight ? "snap-center" : ""
           }`}
         ></section>
-        <section
+        <section //section 4
           id="section3"
           className={`h-full w-full from-slate-500 to-slate-900 bg-gradient-to-b ${
             windowHeight ? "snap-center" : ""
