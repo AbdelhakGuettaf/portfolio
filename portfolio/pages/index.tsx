@@ -10,9 +10,13 @@ import {
   useState,
 } from "react";
 import profile from "../public/images/profile.png";
+import person from "../public/images/person-vector.png";
+import cloud from "../public/images/cloud2.png";
+import slicer from "../public/images/slicer.png";
 import data from "../data.json";
 import { Subtitle } from "../public/components/Subtitle";
 import { Socials } from "../public/components/Socials";
+import { Cards } from "../public/components/Cards";
 
 const Home: NextPage = () => {
   const [visited, setVisited] = useState<number[]>([]);
@@ -35,17 +39,22 @@ const Home: NextPage = () => {
       } else {
         setWindowHeight(true);
       }
+      if (window.innerWidth <= 1280) {
+        setWindowHeight(false);
+      } else {
+        setWindowHeight(true);
+      }
     };
     window.addEventListener("resize", sizeChanged);
     sizeChanged();
     return () => window.removeEventListener("resize", sizeChanged);
   }, []);
-  console.log(windowHeight);
   const toggleNav = (element: string) => {
     home.current?.classList.remove("text-sky-500");
     skills.current?.classList.remove("text-sky-500");
     contact.current?.classList.remove("text-sky-500");
     logo.current?.classList.remove("text-sky-500");
+    logo.current?.classList.add("text-white");
     navSelected.current?.classList.remove("translate-x-0");
     navSelected.current?.classList.remove("translate-x-40");
     navSelected.current?.classList.remove("translate-x-80");
@@ -54,10 +63,10 @@ const Home: NextPage = () => {
       home.current?.classList.add("text-sky-500");
     }
     if (element === "skills") {
-      console.log(element);
       navSelected.current?.classList.add("translate-x-40");
       skills.current?.classList.add("text-sky-500");
       logo.current?.classList.add("text-sky-500");
+      logo.current?.classList.remove("text-white");
     }
     if (element === "contact") {
       navSelected.current?.classList.add("translate-x-80");
@@ -73,6 +82,7 @@ const Home: NextPage = () => {
       n ? normalScroll(p) : onScroll(p);
     }, 100);
   };
+  console.log(scrollToggle);
   const onScroll = (pos: number) => {
     clearTimeout(pos);
     switch (pos) {
@@ -108,7 +118,6 @@ const Home: NextPage = () => {
   };
   const normalScroll = (pos: number) => {
     const p = window.innerHeight;
-    console.log("here");
     if (pos < p) {
       toggleNav("home");
     } else if (pos >= p && pos < p * 1.5) {
@@ -124,7 +133,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <meta
-          http-equiv="ScreenOrientation"
+          httpEquiv="ScreenOrientation"
           content="autoRotate:disabled"
         ></meta>
         <title>{data.name}</title>
@@ -135,7 +144,7 @@ const Home: NextPage = () => {
       >
         <span
           ref={logo}
-          className="transition delay-100 font-sans pt-8 text-white self-center ml-4 text-3xl font-bold "
+          className="transition delay-100 font-sans pt-8  self-center ml-4 text-3xl font-bold "
         >
           {data.name}
         </span>
@@ -185,17 +194,17 @@ const Home: NextPage = () => {
         }}
         className={`${
           scrollToggle ? "overflow-scroll" : "overflow-hidden"
-        }  w-full h-screen dark:bg-black snap snap-y snap-mandatory min-w-fit`}
+        } w-full h-screen dark:bg-black snap snap-y snap-mandatory min-w-fit`}
       >
         <section //section 1
           ref={first}
           style={{ backgroundImage: `url(../images/bg-1.svg)` }}
-          className={`flex flex-col justify-center  xl:flex-row h-screen  w-screen scroll-smooth ${
-            windowHeight ? "snap-center h-screen " : "h-custom"
+          className={`flex flex-col justify-center min-h-screen  w-screen scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : ""
           }  overflow-hidden xl:pt-8`}
         >
-          <div className=" h-full w-screen xl:flex flex-row">
-            <main className="xl:animate-popIn flex flex-col mt-6 xl:mt-0 md:w-full xl:p-3 md: rounded-xl justify-center  ">
+          <div className="h-full w-screen xl:flex flex-row">
+            <main className="xl:animate-popIn flex flex-col mt-6 xl:mt-0 md:w-full xl:p-3  justify-center  ">
               <div className="flex-row w-full ">
                 <div className="flex justify-center xl:justify-start md:justify-center ">
                   <h1 className="flex-nowrap text-5xl lg:pl-16 w-auto text-center font-extralight font-sans text-slate-50   xl:m-3 xl:text-8xl md:text-8xl xl:text-left xl:font-light  ">
@@ -208,30 +217,19 @@ const Home: NextPage = () => {
                   style={{
                     perspective: "900px",
                   }}
-                  className="flex justify-center md:justify-center xl:justify-start w-full h-32 xl:w-full"
+                  className="flex flex-wrap justify-center md:justify-center xl:justify-start w-full md:h-40 xl:h-52 xl:w-full"
                 >
                   <Subtitle />
                 </div>
-                <div className=" flex xl:hidden justify-center w-full xl:items-center">
-                  <div className="flex animate-popIn justify-center w-fit h-fit scale-75 xl:h-80 xl:aspect-square md:scale-90 xl:scale-125  rounded-full shadow-2xl shadow-black">
-                    <Image
-                      className="rounded-full"
-                      src={profile}
-                      layout="fixed"
-                      width="325"
-                      height="325"
-                    />
-                  </div>
-                </div>
-                <div id="socials" className="w-full xl:w-fit  xl:relative ">
-                  <div className="transition w-full flex justify-center lg:pl-7 lg:relative lg:bottom-0 xl:opacity-100 ">
+                <div id="socials" className="w-full lg:pl-16 xl:w-fit ">
+                  <div className="transition w-full flex justify-center lg:relative lg:bottom-0 xl:opacity-100 ">
                     <Socials />
                   </div>
                 </div>
               </div>
             </main>
 
-            <div className="hidden xl:flex bottom-0 lg:b justify-center w-full xl:items-center">
+            {/* <div className="hidden xl:flex bottom-0 lg:b justify-center w-full xl:items-center">
               <div className="xl:animate-popInDelay flex justify-center w-fit scale-50 xl:h-80 xl:aspect-square md:scale-90 xl:scale-125  rounded-full shadow-2xl shadow-black">
                 <Image
                   className=" rounded-full"
@@ -239,6 +237,34 @@ const Home: NextPage = () => {
                   layout="fixed"
                   width="325"
                   height="325"
+                  alt="Profile Picture"
+                />
+              </div>
+                </div>
+                
+                
+                <div className="flex xl:hidden justify-center w-full xl:items-center">
+                  <div className="flex animate-popIn scale-50  justify-center  h-fit xl:h-80 xl:aspect-square md:scale-90 xl:scale-125  rounded-full shadow-2xl shadow-black">
+                    <Image
+                      className="rounded-full"
+                      src={person}
+                      layout="fixed"
+                      width="400"
+                      height="300"
+                      alt="Profile Picture"
+                    />
+                  </div>
+                </div>
+
+                */}
+            <div className="w-full flex justify-center ">
+              <div className="p-10 flex flex-col-reverse bottom-0 right-0 w-fit">
+                <Image
+                  src={person}
+                  layout="intrinsic"
+                  width="750"
+                  height="600"
+                  alt="Profile Picture"
                 />
               </div>
             </div>
@@ -246,16 +272,41 @@ const Home: NextPage = () => {
         </section>
         <section //section 2
           ref={second}
-          className={`flex flex-col  overflow-hidden h-screen w-screen bg-gradient-to-tl from-main to-sky-500 scroll-smooth ${
-            windowHeight ? "snap-center h-screen " : "h-custom"
+          className={`flex flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-tl from-main to-sky-500 scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : ""
           } `}
         >
-          <div className="hidden xl:flex relative w-full h-0">
+          <div
+            className="hidden xl:flex relative w-full h-0" //Sun element
+          >
             <div className="absolute -top-32 -left-20 bg-white rounded-full shadow-2xl  shadow-white w-96 aspect-square"></div>
           </div>
-          <div className="w-full ">
-            <main className="flex justify-center w-full min-w-fit ">
-              <div //cloud wrapper
+          <div
+            className="w-full " //wrapper
+          >
+            <main className="flex flex-col w-full ">
+              <div className="flex w-full justify-center xl:items-center">
+                <div className="pt-5 flex justify-center w-fit scale-75 xl:scale-90">
+                  <Image
+                    className=""
+                    src={cloud}
+                    layout="fixed"
+                    width="400"
+                    height="220"
+                    alt="Profile Picture"
+                  />
+                  <span className="absolute top-1/2 font-extrabold text-sky-500 text-6xl">
+                    Skills
+                  </span>
+                </div>
+              </div>
+              <Cards />
+              <Image src={slicer} layout="responsive" alt="Slicer" />
+            </main>
+          </div>
+
+          {/* 
+          <div //cloud wrapper
                 className=" mt-16 grid grid-rows-6 grid-cols-12 h-44 w-96  "
               >
                 <div className="bg-white z-20 col-start-2 row-start-3 col-end-8  rounded-full  aspect-square w-1/2" />
@@ -267,10 +318,9 @@ const Home: NextPage = () => {
                   Skills
                 </div>
               </div>
-            </main>
-          </div>
-
-          {/* <div className="relative w-screen h-screen">
+          
+          
+          <div className="relative w-screen h-screen">
             <span className="absolute  left-2/4 opacity-30 text-18xl font-extrabold text-slate-900">
               WEB DE<span className="opacity-30 text-violet-500">V</span>
             </span>

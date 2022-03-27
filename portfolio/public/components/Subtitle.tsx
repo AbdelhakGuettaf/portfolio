@@ -21,7 +21,7 @@ export const Subtitle: React.FC<SubtitleProps> = ({}) => {
                 transformStyle: "preserve-3d",
                 transformOrigin: "0% 5%",
               }}
-              className="transition animate-hang backdrop-blur-md  flex p-2 xl:pt-3 xl:w-3/4 text-center text-lg md:text-center sm:text-justify xl:text-left xl:pl-20   xl:text-4xl md:text-2xl sm:text-2xl sm:p-4 font-sans font-thin  text-slate-200  "
+              className="transition animate-hang backdrop-blur-md flex p-2 xl:pt-3 xl:w-3/4 text-center text-lg md:text-center sm:text-justify xl:text-left xl:pl-20    xl:text-4xl md:text-4xl sm:text-2xl sm:p-4 font-sans font-thin  text-slate-200  "
             >
               {data.landing.subtitles[0]}
             </p>
