@@ -49,6 +49,7 @@ const Home: NextPage = () => {
     sizeChanged();
     return () => window.removeEventListener("resize", sizeChanged);
   }, []);
+
   const toggleNav = (element: string) => {
     home.current?.classList.remove("text-sky-500");
     skills.current?.classList.remove("text-sky-500");
@@ -84,7 +85,7 @@ const Home: NextPage = () => {
   };
   console.log(scrollToggle);
   const onScroll = (pos: number) => {
-    clearTimeout(pos);
+    clearTimeout(time);
     switch (pos) {
       case 0:
         toggleNav("home");
