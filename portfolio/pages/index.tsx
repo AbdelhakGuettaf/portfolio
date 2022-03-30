@@ -13,10 +13,12 @@ import profile from "../public/images/profile.png";
 import person from "../public/images/person-vector.png";
 import cloud from "../public/images/cloud2.png";
 import slicer from "../public/images/slicer.png";
+import skillsImg from "../public/images/skills-vector.png";
 import data from "../data.json";
 import { Subtitle } from "../public/components/Subtitle";
 import { Socials } from "../public/components/Socials";
 import { Cards } from "../public/components/Cards";
+import { Projects } from "../public/components/Projects";
 
 const Home: NextPage = () => {
   const [visited, setVisited] = useState<number[]>([]);
@@ -25,8 +27,10 @@ const Home: NextPage = () => {
   const first = useRef<HTMLDivElement>(null);
   const second = useRef<HTMLDivElement>(null);
   const third = useRef<HTMLDivElement>(null);
+  const fourth = useRef<HTMLDivElement>(null);
   const home = useRef<HTMLLIElement>(null);
   const skills = useRef<HTMLLIElement>(null);
+  const projects = useRef<HTMLLIElement>(null);
   const contact = useRef<HTMLLIElement>(null);
   const navSelected = useRef<HTMLLIElement>(null);
   const logo = useRef<HTMLSpanElement>(null);
@@ -34,31 +38,31 @@ const Home: NextPage = () => {
   useEffect(() => {
     toggleNav("home");
     const sizeChanged = () => {
-      if (window.innerHeight <= 820) {
+      if (window.innerHeight <= 700) {
+        console.error("her");
         setWindowHeight(false);
       } else {
         setWindowHeight(true);
       }
-      if (window.innerWidth <= 1280) {
+      if (window.innerWidth < 1000) {
         setWindowHeight(false);
-      } else {
-        setWindowHeight(true);
       }
     };
     window.addEventListener("resize", sizeChanged);
     sizeChanged();
     return () => window.removeEventListener("resize", sizeChanged);
   }, []);
-
   const toggleNav = (element: string) => {
     home.current?.classList.remove("text-sky-500");
     skills.current?.classList.remove("text-sky-500");
+    projects.current?.classList.remove("text-sky-500");
     contact.current?.classList.remove("text-sky-500");
     logo.current?.classList.remove("text-sky-500");
     logo.current?.classList.add("text-white");
     navSelected.current?.classList.remove("translate-x-0");
     navSelected.current?.classList.remove("translate-x-40");
     navSelected.current?.classList.remove("translate-x-80");
+    navSelected.current?.classList.remove("translate-x-[30rem]");
     if (element === "home") {
       navSelected.current?.classList.add("translate-x-0");
       home.current?.classList.add("text-sky-500");
@@ -69,12 +73,15 @@ const Home: NextPage = () => {
       logo.current?.classList.add("text-sky-500");
       logo.current?.classList.remove("text-white");
     }
-    if (element === "contact") {
+    if (element === "projects") {
       navSelected.current?.classList.add("translate-x-80");
+      projects.current?.classList.add("text-sky-500");
+    }
+    if (element === "contact") {
+      navSelected.current?.classList.add("translate-x-[30rem]");
       contact.current?.classList.add("text-sky-500");
     }
   };
-
   var time: NodeJS.Timeout;
   const handleScroll = (e: UIEvent<HTMLElement>, n?: boolean) => {
     clearTimeout(time);
@@ -83,7 +90,6 @@ const Home: NextPage = () => {
       n ? normalScroll(p) : onScroll(p);
     }, 100);
   };
-  console.log(scrollToggle);
   const onScroll = (pos: number) => {
     clearTimeout(time);
     switch (pos) {
@@ -101,13 +107,14 @@ const Home: NextPage = () => {
         setVisited([1]);
         break;
       case window.innerHeight * 2:
-        toggleNav("contact");
+        toggleNav("projects");
         if (visited.includes(2)) break;
         setScrollToggle(false);
         setTimeout(() => setScrollToggle(true), 1000);
         setVisited([1, 2]);
         break;
       case window.innerHeight * 3:
+        toggleNav("contact");
         if (visited.includes(3)) break;
         setScrollToggle(false);
         setTimeout(() => setScrollToggle(true), 1000);
@@ -124,6 +131,8 @@ const Home: NextPage = () => {
     } else if (pos >= p && pos < p * 1.5) {
       toggleNav("skills");
     } else if (pos >= p * 1.5 && pos < p * 2.5) {
+      toggleNav("projects");
+    } else if (pos >= p * 2.5 && pos < p * 3.5) {
       toggleNav("contact");
     } else {
       return;
@@ -179,6 +188,16 @@ const Home: NextPage = () => {
             <li
               onClick={() => {
                 third.current?.scrollIntoView({ behavior: "smooth" });
+                toggleNav("projects");
+              }}
+              ref={projects}
+              className="transition delay-100 text-center w-28 m-2 p-2 px-4 h-fit text-xl font-bold rounded-full border-2 border-transparent hover:shadow-black shadow-2xl hover:border-white hover:cursor-pointer"
+            >
+              Projects
+            </li>
+            <li
+              onClick={() => {
+                fourth.current?.scrollIntoView({ behavior: "smooth" });
                 toggleNav("contact");
               }}
               ref={contact}
@@ -200,8 +219,8 @@ const Home: NextPage = () => {
         <section //section 1
           ref={first}
           style={{ backgroundImage: `url(../images/bg-1.svg)` }}
-          className={`flex flex-col justify-center min-h-screen  w-screen scroll-smooth ${
-            windowHeight ? "snap-center h-screen " : ""
+          className={`flex   flex-col justify-center min-h-screen  w-screen scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : "h-custom"
           }  overflow-hidden xl:pt-8`}
         >
           <div className="h-full w-screen xl:flex flex-row">
@@ -273,7 +292,7 @@ const Home: NextPage = () => {
         </section>
         <section //section 2
           ref={second}
-          className={`flex flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-tl from-main to-sky-500 scroll-smooth ${
+          className={`flex relative  flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-tl from-main to-sky-600 scroll-smooth ${
             windowHeight ? "snap-center h-screen " : ""
           } `}
         >
@@ -283,7 +302,7 @@ const Home: NextPage = () => {
             <div className="absolute -top-32 -left-20 bg-white rounded-full shadow-2xl  shadow-white w-96 aspect-square"></div>
           </div>
           <div
-            className="w-full " //wrapper
+            className="w-full h-full " //wrapper
           >
             <main className="flex flex-col w-full ">
               <div className="flex w-full justify-center xl:items-center">
@@ -302,10 +321,10 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <Cards />
+
               <Image src={slicer} layout="responsive" alt="Slicer" />
             </main>
           </div>
-
           {/* 
           <div //cloud wrapper
                 className=" mt-16 grid grid-rows-6 grid-cols-12 h-44 w-96  "
@@ -319,8 +338,6 @@ const Home: NextPage = () => {
                   Skills
                 </div>
               </div>
-          
-          
           <div className="relative w-screen h-screen">
             <span className="absolute  left-2/4 opacity-30 text-18xl font-extrabold text-slate-900">
               WEB DE<span className="opacity-30 text-violet-500">V</span>
@@ -339,12 +356,24 @@ const Home: NextPage = () => {
         </section>
         <section //section 3
           ref={third}
-          className={`h-full w-full bg-slate-600  ${
-            windowHeight ? "snap-center" : ""
-          }`}
-        ></section>
+          className={`relative flex flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-bl from-main to-sky-600 scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : ""
+          } `}
+        >
+          <div
+            className=" absolute top-0 bottom-0 w-full opacity-30"
+            style={{
+              backgroundImage: `url(../images/abstract-bg-vector.png)`,
+            }}
+          ></div>
+          <main className="h-full">
+            <div className="flex h-full">
+              <Projects />
+            </div>
+          </main>
+        </section>
         <section //section 4
-          id="section3"
+          ref={fourth}
           className={`h-full w-full from-slate-500 to-slate-900 bg-gradient-to-b ${
             windowHeight ? "snap-center" : ""
           }`}
