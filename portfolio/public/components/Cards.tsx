@@ -11,7 +11,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
     <>
       <div className="w-full md:p-4 md:mt-6">
         <main className="flex flex-row justify-evenly w-full flex-wrap ">
-          <div className="transition hover:scale-125 min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
+          <div className="transition lg:hover:scale-125 min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
             <Image
               src={native}
               width={300}
@@ -31,7 +31,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
               </ul>
             </div>
           </div>
-          <div className="transition hover:scale-125  min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
+          <div className="transition lg:hover:scale-125  min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
             <Image
               src={react}
               width={300}
@@ -51,7 +51,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
               </ul>
             </div>
           </div>
-          <div className="transition hover:scale-125  min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
+          <div className="transition lg:hover:scale-125  min-w-fit my-8 border-2 bg-gradient-to-b from-sky-400 to-sky-700 border-white drop-shadow-2xl shadow-black rounded-lg overflow-hidden">
             <Image
               src={design}
               width={300}

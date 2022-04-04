@@ -16,3 +16,19 @@ body,
   background-color: white;
   color: black;
 }
+@layer utilities {
+  @variants responsive {
+    .text-shadow {
+      text-shadow: 2px 2px 4px black;
+    }
+    .text-shadow-md {
+      text-shadow: 8px 6px 60px black;
+    }
+    .text-shadow-lg {
+      text-shadow: 15px 15px 30px black;
+    }
+    .text-shadow-none {
+      text-shadow: none;
+    }
+  }
+}

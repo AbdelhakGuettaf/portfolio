@@ -58,6 +58,7 @@ const Home: NextPage = () => {
     projects.current?.classList.remove("text-sky-500");
     contact.current?.classList.remove("text-sky-500");
     logo.current?.classList.remove("text-sky-500");
+    logo.current?.classList.remove("text-main");
     logo.current?.classList.add("text-white");
     navSelected.current?.classList.remove("translate-x-0");
     navSelected.current?.classList.remove("translate-x-40");
@@ -76,6 +77,8 @@ const Home: NextPage = () => {
     if (element === "projects") {
       navSelected.current?.classList.add("translate-x-80");
       projects.current?.classList.add("text-sky-500");
+      logo.current?.classList.add("text-main");
+      logo.current?.classList.remove("text-white");
     }
     if (element === "contact") {
       navSelected.current?.classList.add("translate-x-[30rem]");
@@ -89,6 +92,15 @@ const Home: NextPage = () => {
     time = setTimeout(() => {
       n ? normalScroll(p) : onScroll(p);
     }, 100);
+  };
+  const navButtonColorHandler = (from: string, to: string) => {
+    home.current?.classList.remove(from);
+    skills.current?.classList.remove(from);
+    contact.current?.classList.remove(from);
+
+    home.current?.classList.add(to);
+    skills.current?.classList.add(to);
+    contact.current?.classList.add(to);
   };
   const onScroll = (pos: number) => {
     clearTimeout(time);
@@ -108,12 +120,19 @@ const Home: NextPage = () => {
         break;
       case window.innerHeight * 2:
         toggleNav("projects");
+        navButtonColorHandler("text-main", "s");
         if (visited.includes(2)) break;
         setScrollToggle(false);
         setTimeout(() => setScrollToggle(true), 1000);
         setVisited([1, 2]);
         break;
       case window.innerHeight * 3:
+        navButtonColorHandler("text-white", "text-main");
+
+        logo.current?.classList.add("text-white");
+        break;
+      case window.innerHeight * 4:
+        navButtonColorHandler("text-main", "s");
         toggleNav("contact");
         if (visited.includes(3)) break;
         setScrollToggle(false);
@@ -132,7 +151,7 @@ const Home: NextPage = () => {
       toggleNav("skills");
     } else if (pos >= p * 1.5 && pos < p * 2.5) {
       toggleNav("projects");
-    } else if (pos >= p * 2.5 && pos < p * 3.5) {
+    } else if (pos >= p * 3.5 && pos < p * 4.5) {
       toggleNav("contact");
     } else {
       return;
@@ -150,7 +169,7 @@ const Home: NextPage = () => {
       </Head>
       <div
         id="nav"
-        className={`fixed hidden  xl:flex md:justify-between p-4 top-0 w-screen h-14 bg-transparent z-10`}
+        className={`fixed hidden  xl:flex md:justify-between p-4 top-0 w-screen h-14 bg-transparent z-50`}
       >
         <span
           ref={logo}
@@ -220,12 +239,12 @@ const Home: NextPage = () => {
           ref={first}
           style={{ backgroundImage: `url(../images/bg-1.svg)` }}
           className={`flex   flex-col justify-center min-h-screen  w-screen scroll-smooth ${
-            windowHeight ? "snap-center h-screen " : "h-custom"
+            windowHeight ? "snap-center h-screen " : "h-fit"
           }  overflow-hidden xl:pt-8`}
         >
           <div className="h-full w-screen xl:flex flex-row">
             <main className="xl:animate-popIn flex flex-col mt-6 xl:mt-0 md:w-full xl:p-3  justify-center  ">
-              <div className="flex-row w-full ">
+              <div className="flex-col justify-between lg:flex-row w-full ">
                 <div className="flex justify-center xl:justify-start md:justify-center ">
                   <h1 className="flex-nowrap text-5xl lg:pl-16 w-auto text-center font-extralight font-sans text-slate-50   xl:m-3 xl:text-8xl md:text-8xl xl:text-left xl:font-light  ">
                     {data.landing.title.split(",")[0]},
@@ -294,7 +313,7 @@ const Home: NextPage = () => {
           ref={second}
           className={`flex relative  flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-tl from-main to-sky-600 scroll-smooth ${
             windowHeight ? "snap-center h-screen " : ""
-          } `}
+          } s`}
         >
           <div
             className="hidden xl:flex relative w-full h-0" //Sun element
@@ -321,8 +340,9 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <Cards />
-
-              <Image src={slicer} layout="responsive" alt="Slicer" />
+              <div>
+                <Image src={slicer} layout="responsive" alt="Slicer" />
+              </div>
             </main>
           </div>
           {/* 
@@ -356,28 +376,42 @@ const Home: NextPage = () => {
         </section>
         <section //section 3
           ref={third}
-          className={`relative flex flex-col min-h-screen overflow-hidden  w-screen bg-gradient-to-bl from-main to-sky-600 scroll-smooth ${
+          className={`relative flex flex-col min-h-screen overflow-hidden  w-screen bg-white lg:bg-gradient-to-bl from-main to-sky-600 scroll-smooth ${
             windowHeight ? "snap-center h-screen " : ""
           } `}
         >
-          <div
-            className=" absolute top-0 bottom-0 w-full opacity-30"
-            style={{
-              backgroundImage: `url(../images/abstract-bg-vector.png)`,
-            }}
-          ></div>
+          <div className="absolute hidden lg:block top-0 bottom-0 w-full z-20 bg-white lg:bg-transparent">
+            <Image
+              src="/images/banner-2.png"
+              layout="fill"
+              alt="Vector art white background"
+            />
+          </div>
           <main className="h-full">
             <div className="flex h-full">
-              <Projects />
+              <Projects project={1} />
             </div>
           </main>
         </section>
         <section //section 4
           ref={fourth}
-          className={`h-full w-full from-slate-500 to-slate-900 bg-gradient-to-b ${
-            windowHeight ? "snap-center" : ""
-          }`}
-        ></section>
+          className={`relative flex flex-col min-h-screen overflow-hidden  w-screen bg-main lg:bg-white from-main to-sky-600 scroll-smooth ${
+            windowHeight ? "snap-center h-screen " : ""
+          } `}
+        >
+          <div className="absolute hidden lg:block  top-0 bottom-0 w-full z-20 ">
+            <Image
+              src="/images/reversed-banner.png"
+              layout="fill"
+              alt="Vector art white background"
+            />
+          </div>
+          <main className="h-full">
+            <div className="flex h-full">
+              <Projects project={2} />
+            </div>
+          </main>
+        </section>
       </div>
     </>
   );
